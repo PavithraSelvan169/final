@@ -8,12 +8,21 @@ CREATE USER 'finaluser'@'%' IDENTIFIED BY 'finalpassword';
 GRANT SELECT, INSERT, UPDATE, DELETE ON final.* TO 'finaluser'@'%';
 
 select username from users;
-create table users (
-id int primary key, 
-username varchar(100),
-password varchar(100),
-active bool default true)
-;
+-- create table users (
+-- id int primary key, 
+-- username varchar(100),
+-- password varchar(100),
+-- active bool default true)
+-- ;
+drop table users;
+CREATE TABLE users (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  username VARCHAR(50) UNIQUE NOT NULL,
+  fullname VARCHAR(200) NOT NULL,
+  hashed_password VARCHAR(255) NOT NULL,
+  active BOOL DEFAULT TRUE
+);
+
 
 select * from users;
 
