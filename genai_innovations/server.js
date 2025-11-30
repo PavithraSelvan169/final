@@ -1,30 +1,37 @@
+import 'zone.js/node';
 import express from 'express';
-import fs from 'fs';
 import { join } from 'path';
-import { fileURLToPath } from 'url';
-import { render } from './dist/genai_innovations/server/main.server.mjs';
+import { existsSync } from 'fs';
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = join(__filename, '..');
+import { AppServerModule } from './dist/genai_innovations/server/main.server.mjs';
+import { ngExpressEngine } from '@nguniversal/express-engine';
 
 const app = express();
 const PORT = process.env.PORT || 4000;
+const DIST_FOLDER = join(process.cwd(), 'dist/genai_innovations/browser');
 
-// Serve static files
-app.use(express.static(join(__dirname, 'dist/genai_innovations/browser'), { index: false }));
+const indexHtml = existsSync(join(DIST_FOLDER, 'index.original.html'))
+  ? 'index.original.html'
+  : 'index.html';
 
-// Catch-all: render SSR
-app.get('*', async (req, res) => {
-  try {
-    const indexHtml = await fs.promises.readFile(join(__dirname, 'dist/genai_innovations/browser/index.html'), 'utf-8');
-    const html = await render(req.originalUrl, { document: indexHtml });
-    res.send(html);
-  } catch (err) {
-    console.error(err);
-    res.status(500).send('Server Error');
-  }
+app.engine(
+  'html',
+  ngExpressEngine({
+    bootstrap: AppServerModule,
+  })
+);
+
+app.set('view engine', 'html');
+app.set('views', DIST_FOLDER);
+
+app.get('*.*', express.static(DIST_FOLDER, {
+  maxAge: '1y'
+}));
+
+app.get('*', (req, res) => {
+  res.render(indexHtml, { req });
 });
 
 app.listen(PORT, () => {
-  console.log(`Angular SSR listening on http://localhost:${PORT}`);
+  console.log(`✅ Angular Universal running on http://localhost:${PORT}`);
 });
