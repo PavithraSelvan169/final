@@ -1,3 +1,5 @@
 py313_venv
 server/__pycache__
 .git
+genai_innovations/.vscode
+genai_innovations/node_modules
