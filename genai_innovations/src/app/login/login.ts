@@ -26,7 +26,7 @@ export class Login implements OnInit {
     });
 
 
-    
+
     // if (this.auth.isLoggedIn()) {
     //   this.router.navigate(['/dashboard']);
     // }
@@ -44,8 +44,18 @@ export class Login implements OnInit {
     const { username, password } = this.form.value;
 
     this.auth.login(username!, password!).subscribe({
-      next: _ => this.router.navigate(['/dashboard']),
-      error: _ => this.error = 'Invalid credentials'
+      // next: _ => this.router.navigate(['/dashboard']),
+      // error: _ => this.error = 'Invalid credentials'
+
+      next: () => {
+      console.log('Login success');
+      // this.router.navigate(['/dashboard']);
+      window.location.href = '/dashboard';
+    },
+    error: (err) => {
+      console.error('Login error', err);
+      this.error = 'Login failed';
+    }
     });
   }
 }
