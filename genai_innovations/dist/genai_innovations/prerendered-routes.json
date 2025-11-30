@@ -1,0 +1,9 @@
+{
+  "routes": {
+    "/": {},
+    "/dashboard": {},
+    "/login": {},
+    "/reports": {},
+    "/summary": {}
+  }
+}
