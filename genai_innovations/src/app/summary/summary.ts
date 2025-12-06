@@ -19,8 +19,8 @@ export class Summary implements OnInit {
 
   constructor(private http: HttpClient, private cdr: ChangeDetectorRef) { }
 
-  private apiUrl_imp = 'http://ec2-54-174-121-211.compute-1.amazonaws.com:3000/data/dataset1';
-  private apiUrl_adopt = 'http://ec2-54-174-121-211.compute-1.amazonaws.com:3000/data/dataset2';
+  private apiUrl_imp = 'http://ec2-34-230-77-200.compute-1.amazonaws.com:3000/data/dataset1';
+  private apiUrl_adopt = 'http://ec2-34-230-77-200.compute-1.amazonaws.com:3000/data/dataset2';
 
   doughnutChartType: ChartType = 'doughnut';
 
