@@ -14,16 +14,22 @@ import { HttpClient, HttpClientModule, HttpHeaders } from '@angular/common/http'
 })
 
 export class Summary implements OnInit {
-  @ViewChild(BaseChartDirective) chart?: BaseChartDirective;
+  @ViewChild(BaseChartDirective) chart_imp?: BaseChartDirective;
+  @ViewChild(BaseChartDirective) chart_adopt?: BaseChartDirective;
 
   constructor(private http: HttpClient) { }
 
-  private apiUrl = 'http://ec2-54-174-121-211.compute-1.amazonaws.com:3000/data/dataset1';
+  private apiUrl_imp = 'http://ec2-54-174-121-211.compute-1.amazonaws.com:3000/data/dataset1';
+  private apiUrl_adopt = 'http://ec2-54-174-121-211.compute-1.amazonaws.com:3000/data/dataset2';
 
   doughnutChartType: ChartType = 'doughnut';
 
 
-  doughnutChartData: ChartConfiguration['data'] = {
+  doughnutChartData_imp: ChartConfiguration['data'] = {
+    labels: [],
+    datasets: [{ data: [] }]
+  };
+  doughnutChartData_adopt: ChartConfiguration['data'] = {
     labels: [],
     datasets: [{ data: [] }]
   };
@@ -44,10 +50,11 @@ export class Summary implements OnInit {
 
   ngOnInit(): void {
     console.log('entered oninit');
-    this.loadChartData();
+    this.loadChartData_imp();
+    this.loadChartData_adopt();
   }
 
-  private loadChartData(): void {
+  private loadChartData_imp(): void {
     const token = localStorage.getItem('access_token');
     console.log('token received:');
     console.log(token);
@@ -55,11 +62,11 @@ export class Summary implements OnInit {
       'Authorization': `Bearer ${token}`
     });
 
-    this.http.get<any[]>(this.apiUrl, { headers }).subscribe({
+    this.http.get<any[]>(this.apiUrl_imp, { headers }).subscribe({
       next: (response) => {
 
-        this.doughnutChartData.labels!.length = 0;
-        this.doughnutChartData.labels!.push(...response.map(item => item.implementation_strategy));
+        this.doughnutChartData_imp.labels!.length = 0;
+        this.doughnutChartData_imp.labels!.push(...response.map(item => item.implementation_strategy));
 
         //       this.doughnutChartLabels = [
         //   'Have started exploring the potential',
@@ -70,23 +77,19 @@ export class Summary implements OnInit {
         // ];
 
 
-        const percentages = response.map(item => item.percentage);
+        // const percentages_imp = response.map(item => item.percentage);
 
 
-        console.log('percentages data:');
-        console.log(percentages);
-
-
-        this.doughnutChartData.datasets[0].data!.length = 0;
-        this.doughnutChartData.datasets[0].data!.push(...response.map(item => item.percentage));
+        this.doughnutChartData_imp.datasets[0].data!.length = 0;
+        this.doughnutChartData_imp.datasets[0].data!.push(...response.map(item => item.percentage));
 
         // const baseColor = '#36A2EB'; // blue
         // const baseColor = '#7abde9ff'; // blue
         const n = response.length;
-        this.doughnutChartData.datasets[0].backgroundColor = this.generateSubtleColors(n);
+        this.doughnutChartData_imp.datasets[0].backgroundColor = this.generateSubtleColors(n);
         // this.doughnutChartData.datasets[0].backgroundColor = this.generateShades(baseColor, n);
 
-        this.chart?.update();
+        this.chart_imp?.update();
 
 
       },
@@ -96,6 +99,56 @@ export class Summary implements OnInit {
 
     });
   }
+
+
+
+  private loadChartData_adopt(): void {
+    const token = localStorage.getItem('access_token');
+    console.log('token received:');
+    console.log(token);
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
+
+    this.http.get<any[]>(this.apiUrl_adopt, { headers }).subscribe({
+      next: (response) => {
+
+        this.doughnutChartData_adopt.labels!.length = 0;
+        this.doughnutChartData_adopt.labels!.push(...response.map(item => item.current_state_of_adoption));
+
+        //       this.doughnutChartLabels = [
+        //   'Have started exploring the potential',
+        //   'Considering experimenting/deploying (6-12 months)',
+        //   'Piloting initial use cases',
+        //   'Implemented at partial scale',
+        //   'Implemented at scale'
+        // ];
+
+
+        // const percentages_adopt = response.map(item => item.percentage);
+
+
+        this.doughnutChartData_adopt.datasets[0].data!.length = 0;
+        this.doughnutChartData_adopt.datasets[0].data!.push(...response.map(item => item.percentage));
+
+        // const baseColor = '#36A2EB'; // blue
+        // const baseColor = '#7abde9ff'; // blue
+        const n = response.length;
+        this.doughnutChartData_adopt.datasets[0].backgroundColor = this.generateSubtleColors(n);
+        // this.doughnutChartData.datasets[0].backgroundColor = this.generateShades(baseColor, n);
+
+        this.chart_adopt?.update();
+
+
+      },
+      error: (err) => {
+        console.error('Error loading adoption data - dataset1', err);
+      }
+
+    });
+  }
+
+
 
 
   private generateShades(baseColor: string, n: number): string[] {
