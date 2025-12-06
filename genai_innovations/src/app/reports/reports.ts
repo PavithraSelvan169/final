@@ -14,8 +14,8 @@ import { HttpClient } from '@angular/common/http';
 })
 export class Reports implements OnInit{
 
-  // private apiUrl_mat = 'http://ec2-54-174-121-211.compute-1.amazonaws.com:3000/data/maturity';
-  private apiUrl_mat = 'http://localhost:3000/data/maturity';
+  private apiUrl_mat = 'http://ec2-54-174-121-211.compute-1.amazonaws.com:3000/data/maturity';
+  // private apiUrl_mat = 'http://localhost:3000/data/maturity';
   levels = ['Level-0', 'Level-1', 'Level-2', 'Level-3', 'Level-4', 'Level-5'];
 
   next12Months: any[] = [];
