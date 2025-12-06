@@ -23,3 +23,12 @@ class Dataset2(Base):
     id = Column(Integer, primary_key=True, index=True)
     current_state_of_adoption = Column(String(200), unique=False)
     percentage = Column(Integer)
+
+
+class Maturity(Base):
+    __tablename__ = "maturity_prediction"
+    
+    id = Column(Integer, primary_key=True, index=True)
+    maturity_level = Column(String(10), unique=False)
+    period = Column(String(25), unique=False)
+    percentage = Column(Integer)

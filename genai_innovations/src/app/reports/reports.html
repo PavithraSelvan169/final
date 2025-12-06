@@ -1,4 +1,4 @@
-<div class="reports-container">
+<!-- <div class="reports-container">
   <h1 class="reports-title">Reports</h1>
 
   <div class="chart-card">
@@ -12,4 +12,43 @@
       This chart represents ....
     </p>
   </div>
+</div>
+ -->
+
+
+<div class="maturity-container">
+<section class="chart-border-container">
+  <div class="row">
+    <div class="label-top">In the next 12 months</div>
+
+    <div class="charts">
+      <div class="chart" *ngFor="let c of next12Months">
+        <div class="chart-title">{{c.level}}</div>
+        <canvas baseChart
+          [data]="c.chartData"
+          [type]="'doughnut'"
+          [options]="doughnutOptions">
+        </canvas>
+
+        <div class="center-text-top">{{c.value}}%</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="label-bottom">In the next 1–3 years</div>
+
+    <div class="charts">
+      <div class="chart" *ngFor="let c of next3Years">
+        <canvas baseChart
+          [data]="c.chartData"
+          [type]="'doughnut'"
+          [options]="doughnutOptions">
+        </canvas>
+
+        <div class="center-text-bottom">{{c.value}}%</div>
+      </div>
+    </div>
+  </div>
+</section>
 </div>

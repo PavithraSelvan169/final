@@ -4,6 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { map } from 'rxjs';
 import { environment } from './environments/environment';
+import { jwtDecode } from 'jwt-decode';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
@@ -15,13 +16,13 @@ export class AuthService {
   private API = `${environment.api_host}/login`;
   private TOKEN_KEY = 'access_token';
 
-   private isBrowser(): boolean {
+  private isBrowser(): boolean {
     return isPlatformBrowser(this.platformId);
   }
 
   login(username: string, password: string) {
     console.log('entered login function')
-    return this.http.post<{access_token:string}>(this.API, { username, password })
+    return this.http.post<{ access_token: string }>(this.API, { username, password })
       .pipe(map(res => {
         console.log('API response:', res);
 
@@ -47,13 +48,28 @@ export class AuthService {
 
   isLoggedIn(): boolean {
     if (!this.isBrowser()) return false;
-    return !!localStorage.getItem(this.TOKEN_KEY);
+    const token = localStorage.getItem('access_token');
+    return !!token && !this.isTokenExpired(token);
+    // return !!localStorage.getItem(this.TOKEN_KEY);
   }
 
   getToken(): string | null {
-     if (!this.isBrowser()) return null;
-     return localStorage.getItem(this.TOKEN_KEY);
+    if (!this.isBrowser()) return null;
+    return localStorage.getItem(this.TOKEN_KEY);
+  }
+  getUsername(): string | null {
+    if (!this.isBrowser()) return null;
+    const token = localStorage.getItem(this.TOKEN_KEY);
+    if (!token) return null;
+    const decoded: any = jwtDecode(token);
+    return decoded.fullname || null;
+  }
+
+  isTokenExpired(token: string): boolean {
+    const decoded: any = jwtDecode(token);
+    return decoded.exp * 1000 < Date.now();
   }
 
 
 }
+

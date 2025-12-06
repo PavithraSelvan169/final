@@ -14,8 +14,10 @@
   color: #f2f2f2;
   text-align: center;
   padding: 14px 16px;
-  text-decoration: none;
+  text-decoration: solid;
   font-size: 17px;
+  font-family: Arial, sans-serif;
+  font-weight: bold;
 }
 
 .nav-links a:hover {
@@ -24,12 +26,13 @@
 }
 
 .nav-links a.active-link {
-  background-color: #04AA6D;
-  color: white;
+  /* background-color: #04AA6D; */
+  background-color: #74a06dfa;
+  color: black;
 }
 
 .logout-btn {
-  background-color: #dc3545; 
+  background-color: #dc3545;
   color: white;
   border: none;
   padding: 10px 15px;

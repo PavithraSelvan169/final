@@ -2,7 +2,7 @@ from fastapi import FastAPI, Depends, HTTPException, status
 from pydantic import BaseModel
 from sqlalchemy.orm import Session
 from database import SessionLocal, engine
-from models import Base, User, Dataset1, Dataset2
+from models import Base, User, Dataset1, Dataset2, Maturity
 from auth import hash_password, verify_password, create_access_token, get_current_user
 from fastapi.middleware.cors import CORSMiddleware
 
@@ -71,7 +71,7 @@ def login(data: LoginRequest, db: Session = Depends(get_db)):
     if not verify_password(data.password, user.hashed_password):
         raise HTTPException(status_code=401, detail="Invalid credentials")
 
-    token = create_access_token({"sub": user.username})
+    token = create_access_token({"sub": user.username, "fullname": user.fullname})
 
     return {
         "access_token": token,
@@ -105,6 +105,20 @@ def get_dataset2(
 
     return [
         {"id": r.id, "current_state_of_adoption": r.current_state_of_adoption, "percentage": r.percentage}
+        for r in results
+    ]
+
+
+@app.get("/data/maturity")
+def get_dataset2(
+    current_user: str = Depends(get_current_user),
+    db: Session = Depends(get_db)
+    ):
+
+    results = db.query(Maturity).all()
+
+    return [
+        {"maturity_level": r.maturity_level, "period": r.period, "percentage": r.percentage}
         for r in results
     ]
 

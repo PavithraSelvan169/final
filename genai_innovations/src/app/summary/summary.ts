@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ChartConfiguration, ChartType, Chart } from 'chart.js';
 import ChartDataLabels from 'chartjs-plugin-datalabels';
@@ -16,10 +16,8 @@ Chart.register(ChartDataLabels);
 })
 
 export class Summary implements OnInit {
-  @ViewChild(BaseChartDirective) chart_imp?: BaseChartDirective;
-  @ViewChild(BaseChartDirective) chart_adopt?: BaseChartDirective;
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private cdr: ChangeDetectorRef) { }
 
   private apiUrl_imp = 'http://ec2-54-174-121-211.compute-1.amazonaws.com:3000/data/dataset1';
   private apiUrl_adopt = 'http://ec2-54-174-121-211.compute-1.amazonaws.com:3000/data/dataset2';
@@ -36,49 +34,36 @@ export class Summary implements OnInit {
     datasets: [{ data: [] }]
   };
 
-  // doughnutChartOptions: ChartConfiguration['options'] = {
-  //   responsive: true,
-  //   plugins: {
-  //     legend: {
-  //       position: 'right'
-  //     }
-  //   }
-  // };
-
-
   doughnutChartOptions: ChartConfiguration['options'] = {
-  responsive: true,
-  plugins: {
-    legend: {
-      position: 'right'
-    },
-    tooltip: {
-      enabled: true, // tooltips are on by default
-      callbacks: {
-        label: (context) => {
-          const value = context.dataset.data[context.dataIndex];
-          const label = context.label;
-          return `${label}: ${value}%`;
-        }
-      }
-    },
-    datalabels: {
-      color: '#000', // text color
-      font: {
-        weight: 'bold',
-        size: 14
+    responsive: true,
+    plugins: {
+      legend: {
+        position: 'right'
       },
-      formatter: (value: any) => `${value}%`, // display value with %
-      anchor: 'center', // position inside slice ('end' for outside)
-      align: 'center',  // adjust alignment
-      offset: 0,        // for outside: set offset
-      clamp: true
+      tooltip: {
+        enabled: true, // tooltips are on by default
+        callbacks: {
+          label: (context) => {
+            const value = context.dataset.data[context.dataIndex];
+            const label = context.label;
+            return `${label}: ${value}%`;
+          }
+        }
+      },
+      datalabels: {
+        color: '#000', // text color
+        font: {
+          weight: 'bold',
+          size: 14
+        },
+        formatter: (value: any) => `${value}%`, // display value with %
+        anchor: 'center', // position inside slice ('end' for outside)
+        align: 'center',  // adjust alignment
+        offset: 0,        // for outside: set offset
+        clamp: true
+      }
     }
-  }
-};
-
-
-
+  };
 
 
 
@@ -89,99 +74,65 @@ export class Summary implements OnInit {
   }
 
 
-
-
-
   private loadChartData_adopt(): void {
     const token = localStorage.getItem('access_token');
-    console.log('token received:');
-    console.log(token);
+    // console.log('token received:');
+    // console.log(token);
     const headers = new HttpHeaders({
       'Authorization': `Bearer ${token}`
     });
 
     this.http.get<any[]>(this.apiUrl_adopt, { headers }).subscribe({
       next: (response_adopt) => {
+        const colors = this.generateSubtleColors(response_adopt.length);
 
-        this.doughnutChartData_adopt.labels!.length = 0;
-        this.doughnutChartData_adopt.labels!.push(...response_adopt.map(item => item.current_state_of_adoption));
+        // Create NEW data object instead of mutating
+        this.doughnutChartData_adopt = {
+          labels: response_adopt.map(item => item.current_state_of_adoption),
+          datasets: [
+            {
+              data: response_adopt.map(item => item.percentage),
+              backgroundColor: colors
+            }
+          ]
+        };
 
-        //       this.doughnutChartLabels = [
-        //   'Have started exploring the potential',
-        //   'Considering experimenting/deploying (6-12 months)',
-        //   'Piloting initial use cases',
-        //   'Implemented at partial scale',
-        //   'Implemented at scale'
-        // ];
-
-
-        // const percentages_adopt = response_adopt.map(item => item.percentage);
-
-
-        this.doughnutChartData_adopt.datasets[0].data!.length = 0;
-        this.doughnutChartData_adopt.datasets[0].data!.push(...response_adopt.map(item => item.percentage));
-
-        // const baseColor = '#36A2EB'; // blue
-        // const baseColor = '#7abde9ff'; // blue
-        const n = response_adopt.length;
-        this.doughnutChartData_adopt.datasets[0].backgroundColor = this.generateSubtleColors(n);
-        // this.doughnutChartData.datasets[0].backgroundColor = this.generateShades(baseColor, n);
-
-        this.chart_adopt?.update();
-
-
+        this.cdr.detectChanges();
       },
       error: (err) => {
-        console.error('Error loading adoption data - dataset1', err);
+        console.error('Error loading adoption data', err);
       }
-
     });
   }
 
-
- private loadChartData_imp(): void {
+  private loadChartData_imp(): void {
     const token = localStorage.getItem('access_token');
-    console.log('token received:');
-    console.log(token);
+    // console.log('token received:');
+    // console.log(token);
     const headers = new HttpHeaders({
       'Authorization': `Bearer ${token}`
     });
 
     this.http.get<any[]>(this.apiUrl_imp, { headers }).subscribe({
       next: (response_imp) => {
+        const colors = this.generateSubtleColors(response_imp.length);
 
-        this.doughnutChartData_imp.labels!.length = 0;
-        this.doughnutChartData_imp.labels!.push(...response_imp.map(item => item.implementation_strategy));
+        // Create NEW data object instead of mutating
+        this.doughnutChartData_imp = {
+          labels: response_imp.map(item => item.implementation_strategy),
+          datasets: [
+            {
+              data: response_imp.map(item => item.percentage),
+              backgroundColor: colors
+            }
+          ]
+        };
 
-        //       this.doughnutChartLabels = [
-        //   'Have started exploring the potential',
-        //   'Considering experimenting/deploying (6-12 months)',
-        //   'Piloting initial use cases',
-        //   'Implemented at partial scale',
-        //   'Implemented at scale'
-        // ];
-
-
-        // const percentages_imp = response_imp.map(item => item.percentage);
-
-
-        this.doughnutChartData_imp.datasets[0].data!.length = 0;
-        this.doughnutChartData_imp.datasets[0].data!.push(...response_imp.map(item => item.percentage));
-
-        // const baseColor = '#36A2EB'; // blue
-        // const baseColor = '#7abde9ff'; // blue
-        const n = response_imp.length;
-        this.doughnutChartData_imp.datasets[0].backgroundColor = this.generateSubtleColors(n);
-        // this.doughnutChartData.datasets[0].backgroundColor = this.generateShades(baseColor, n);
-
-        this.chart_imp?.update();
-
-
+        this.cdr.detectChanges();
       },
       error: (err) => {
-        console.error('Error loading adoption data - dataset1', err);
+        console.error('Error loading adoption data', err);
       }
-
     });
   }
 
@@ -204,27 +155,27 @@ export class Summary implements OnInit {
 
 
   private generateColors(n: number): string[] {
-  const colors: string[] = [];
-  const saturation = 70; // percentage
-  const lightness = 50;  // percentage
+    const colors: string[] = [];
+    const saturation = 70; // percentage
+    const lightness = 50;  // percentage
 
-  for (let i = 0; i < n; i++) {
-    const hue = Math.round((360 * i) / n); // rotate around color wheel
-    colors.push(`hsl(${hue}, ${saturation}%, ${lightness}%)`);
+    for (let i = 0; i < n; i++) {
+      const hue = Math.round((360 * i) / n); // rotate around color wheel
+      colors.push(`hsl(${hue}, ${saturation}%, ${lightness}%)`);
+    }
+    return colors;
   }
-  return colors;
-}
 
-private generateSubtleColors(n: number): string[] {
-  const colors: string[] = [];
-  const saturation = 40; // lower saturation for soft look
-  const lightness = 65;  // brighter/muted
+  private generateSubtleColors(n: number): string[] {
+    const colors: string[] = [];
+    const saturation = 40; // lower saturation for soft look
+    const lightness = 65;  // brighter/muted
 
-  for (let i = 0; i < n; i++) {
-    const hue = Math.round((360 * i) / n); // evenly spaced hues
-    colors.push(`hsl(${hue}, ${saturation}%, ${lightness}%)`);
+    for (let i = 0; i < n; i++) {
+      const hue = Math.round((360 * i) / n); // evenly spaced hues
+      colors.push(`hsl(${hue}, ${saturation}%, ${lightness}%)`);
+    }
+    return colors;
   }
-  return colors;
-}
 
 }
