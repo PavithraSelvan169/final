@@ -1,9 +1,11 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ChartConfiguration, ChartType } from 'chart.js';
+import { ChartConfiguration, ChartType, Chart } from 'chart.js';
+import ChartDataLabels from 'chartjs-plugin-datalabels';
 import { BaseChartDirective } from 'ng2-charts';
 import { HttpClient, HttpClientModule, HttpHeaders } from '@angular/common/http';
 
+Chart.register(ChartDataLabels);
 
 @Component({
   selector: 'app-summary',
@@ -34,14 +36,46 @@ export class Summary implements OnInit {
     datasets: [{ data: [] }]
   };
 
+  // doughnutChartOptions: ChartConfiguration['options'] = {
+  //   responsive: true,
+  //   plugins: {
+  //     legend: {
+  //       position: 'right'
+  //     }
+  //   }
+  // };
+
+
   doughnutChartOptions: ChartConfiguration['options'] = {
-    responsive: true,
-    plugins: {
-      legend: {
-        position: 'right'
+  responsive: true,
+  plugins: {
+    legend: {
+      position: 'right'
+    },
+    tooltip: {
+      enabled: true, // tooltips are on by default
+      callbacks: {
+        label: (context) => {
+          const value = context.dataset.data[context.dataIndex];
+          const label = context.label;
+          return `${label}: ${value}%`;
+        }
       }
+    },
+    datalabels: {
+      color: '#000', // text color
+      font: {
+        weight: 'bold',
+        size: 14
+      },
+      formatter: (value: any) => `${value}%`, // display value with %
+      anchor: 'center', // position inside slice ('end' for outside)
+      align: 'center',  // adjust alignment
+      offset: 0,        // for outside: set offset
+      clamp: true
     }
-  };
+  }
+};
 
 
 
@@ -54,51 +88,7 @@ export class Summary implements OnInit {
     this.loadChartData_adopt();
   }
 
-  private loadChartData_imp(): void {
-    const token = localStorage.getItem('access_token');
-    console.log('token received:');
-    console.log(token);
-    const headers = new HttpHeaders({
-      'Authorization': `Bearer ${token}`
-    });
 
-    this.http.get<any[]>(this.apiUrl_imp, { headers }).subscribe({
-      next: (response) => {
-
-        this.doughnutChartData_imp.labels!.length = 0;
-        this.doughnutChartData_imp.labels!.push(...response.map(item => item.implementation_strategy));
-
-        //       this.doughnutChartLabels = [
-        //   'Have started exploring the potential',
-        //   'Considering experimenting/deploying (6-12 months)',
-        //   'Piloting initial use cases',
-        //   'Implemented at partial scale',
-        //   'Implemented at scale'
-        // ];
-
-
-        // const percentages_imp = response.map(item => item.percentage);
-
-
-        this.doughnutChartData_imp.datasets[0].data!.length = 0;
-        this.doughnutChartData_imp.datasets[0].data!.push(...response.map(item => item.percentage));
-
-        // const baseColor = '#36A2EB'; // blue
-        // const baseColor = '#7abde9ff'; // blue
-        const n = response.length;
-        this.doughnutChartData_imp.datasets[0].backgroundColor = this.generateSubtleColors(n);
-        // this.doughnutChartData.datasets[0].backgroundColor = this.generateShades(baseColor, n);
-
-        this.chart_imp?.update();
-
-
-      },
-      error: (err) => {
-        console.error('Error loading adoption data - dataset1', err);
-      }
-
-    });
-  }
 
 
 
@@ -111,10 +101,10 @@ export class Summary implements OnInit {
     });
 
     this.http.get<any[]>(this.apiUrl_adopt, { headers }).subscribe({
-      next: (response) => {
+      next: (response_adopt) => {
 
         this.doughnutChartData_adopt.labels!.length = 0;
-        this.doughnutChartData_adopt.labels!.push(...response.map(item => item.current_state_of_adoption));
+        this.doughnutChartData_adopt.labels!.push(...response_adopt.map(item => item.current_state_of_adoption));
 
         //       this.doughnutChartLabels = [
         //   'Have started exploring the potential',
@@ -125,15 +115,15 @@ export class Summary implements OnInit {
         // ];
 
 
-        // const percentages_adopt = response.map(item => item.percentage);
+        // const percentages_adopt = response_adopt.map(item => item.percentage);
 
 
         this.doughnutChartData_adopt.datasets[0].data!.length = 0;
-        this.doughnutChartData_adopt.datasets[0].data!.push(...response.map(item => item.percentage));
+        this.doughnutChartData_adopt.datasets[0].data!.push(...response_adopt.map(item => item.percentage));
 
         // const baseColor = '#36A2EB'; // blue
         // const baseColor = '#7abde9ff'; // blue
-        const n = response.length;
+        const n = response_adopt.length;
         this.doughnutChartData_adopt.datasets[0].backgroundColor = this.generateSubtleColors(n);
         // this.doughnutChartData.datasets[0].backgroundColor = this.generateShades(baseColor, n);
 
@@ -149,7 +139,51 @@ export class Summary implements OnInit {
   }
 
 
+ private loadChartData_imp(): void {
+    const token = localStorage.getItem('access_token');
+    console.log('token received:');
+    console.log(token);
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
 
+    this.http.get<any[]>(this.apiUrl_imp, { headers }).subscribe({
+      next: (response_imp) => {
+
+        this.doughnutChartData_imp.labels!.length = 0;
+        this.doughnutChartData_imp.labels!.push(...response_imp.map(item => item.implementation_strategy));
+
+        //       this.doughnutChartLabels = [
+        //   'Have started exploring the potential',
+        //   'Considering experimenting/deploying (6-12 months)',
+        //   'Piloting initial use cases',
+        //   'Implemented at partial scale',
+        //   'Implemented at scale'
+        // ];
+
+
+        // const percentages_imp = response_imp.map(item => item.percentage);
+
+
+        this.doughnutChartData_imp.datasets[0].data!.length = 0;
+        this.doughnutChartData_imp.datasets[0].data!.push(...response_imp.map(item => item.percentage));
+
+        // const baseColor = '#36A2EB'; // blue
+        // const baseColor = '#7abde9ff'; // blue
+        const n = response_imp.length;
+        this.doughnutChartData_imp.datasets[0].backgroundColor = this.generateSubtleColors(n);
+        // this.doughnutChartData.datasets[0].backgroundColor = this.generateShades(baseColor, n);
+
+        this.chart_imp?.update();
+
+
+      },
+      error: (err) => {
+        console.error('Error loading adoption data - dataset1', err);
+      }
+
+    });
+  }
 
   private generateShades(baseColor: string, n: number): string[] {
     const shades: string[] = [];
