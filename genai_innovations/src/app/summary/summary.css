@@ -45,3 +45,39 @@
   line-height: 1.5;
   font-size: 0.95rem;
 }
+
+.ai-adoption-container {
+  max-width: 900px;
+  margin: auto;
+}
+
+.chart-wrapper {
+  display: flex;
+  justify-content: center;
+  margin: 20px 0;
+}
+
+.summary {
+  font-size: 15px;
+  line-height: 1.6;
+}
+
+
+.ai-adoption-container {
+  max-width: 900px;
+  margin: auto;
+  padding: 20px;
+  line-height: 1.6;
+  font-family: Arial, sans-serif;
+}
+
+.title {
+  font-size: 28px;
+  font-weight: 700;
+  margin-bottom: 15px;
+}
+
+.ai-adoption-container p {
+  margin-bottom: 15px;
+  color: #333;
+}

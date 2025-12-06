@@ -46,9 +46,27 @@ a:hover {
   text-decoration: underline;
 }
 
-/* Make long tech paragraph easier to read */
+/* Make long tech paragraph easier to read
 p:last-of-type {
   background: #fefce8;
   border-left: 4px solid #facc15;
 }
+*/
+.agentic-ai-container {
+  max-width: 900px;
+  margin: auto;
+  padding: 20px;
+  line-height: 1.6;
+  font-family: Arial, sans-serif;
+}
 
+.title {
+  font-size: 28px;
+  font-weight: 700;
+  margin-bottom: 15px;
+}
+
+.agentic-ai-container p {
+  margin-bottom: 15px;
+  color: #333;
+}

@@ -7,6 +7,7 @@ select user,host from mysql.user;
 CREATE USER 'finaluser'@'%' IDENTIFIED BY 'finalpassword';
 GRANT SELECT, INSERT, UPDATE, DELETE ON final.* TO 'finaluser'@'%';
 
+
 select username from users;
 -- create table users (
 -- id int primary key, 
