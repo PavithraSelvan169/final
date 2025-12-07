@@ -119,7 +119,8 @@ canvas {
 }
 
 .autonomy-header {
-  margin-bottom: 1px;
+  margin-top: 1px;
+  margin-bottom: 10px;
   font-family: Arial, sans-serif;
 }
 
