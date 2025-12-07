@@ -25,7 +25,7 @@ export class Reports implements OnInit{
     responsive: true,
     maintainAspectRatio: false,
     cutout: '80%',
-    plugins: { legend: { display: false }, tooltip: { enabled: true } }
+    plugins: { legend: { display: false }, tooltip: { enabled: true }, datalabels: { display: false } }
   };
 
   constructor(private http: HttpClient, private cdr: ChangeDetectorRef) {}

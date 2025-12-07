@@ -20,8 +20,47 @@
 
   <!-- New section matching the image -->
   <div class="autonomy-header">
-    <h2 class="autonomy-title">Maturity Levels of Autonomy in AI agents</h2>
+    <h1 class="autonomy-header">Future Predictions of Agentic AI</h1>
+    <h2 class="autonomy-title">Future Maturity Levels of Autonomy in AI agents</h2>
 
+  </div>
+
+  <section class="chart-border-container">
+    <div class="row">
+      <div class="label-top">In the next 12 months</div>
+
+      <div class="charts">
+        <div class="chart" *ngFor="let c of next12Months">
+          <div class="chart-title">{{c.level}}</div>
+          <canvas baseChart [data]="c.chartData" [type]="'doughnut'" [options]="doughnutOptions">
+          </canvas>
+
+          <div class="center-text-top">{{c.value}}%</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="label-bottom">In the next 1–3 years</div>
+
+      <div class="charts">
+        <div class="chart" *ngFor="let c of next3Years">
+          <canvas baseChart [data]="c.chartData" [type]="'doughnut'" [options]="doughnutOptions">
+          </canvas>
+
+          <div class="center-text-bottom">{{c.value}}%</div>
+        </div>
+      </div>
+
+    </div>
+     <h2 class="autonomy-title">Inferences from the Charts:</h2>
+      <p class="explanation-text">The predictions indicate a significant shift towards higher levels of autonomy in AI agents over the next
+      few years. In the next 12 months, a majority of processes are expected to remain at Levels 0 to 2, with only
+      15% reaching Level 3 or higher. However, within 1 to 3 years, there is a marked increase in maturity, with
+      45% of processes anticipated to operate at Level 3 or above. This trend underscores the growing confidence
+      and reliance on AI agents to handle more complex tasks with reduced human intervention.
+  </p>
+    <h2 class="autonomy-title">Understanding the Levels:</h2>
     <table class="autonomy-table">
       <thead>
         <tr>
@@ -53,50 +92,29 @@
         </tr>
         <tr>
           <td><span class="level-label">Level 4:</span> Independent operation (multi-agent AI teams)</td>
-          <td>AI agents coordinate tasks and make decisions to execute processes within strategic boundaries and escalate when needed</td>
-          <td>Human delegates authority to AI agents, and the AI agents escalate to the human when it requires intervention</td>
+          <td>AI agents coordinate tasks and make decisions to execute processes within strategic boundaries and
+            escalate when needed</td>
+          <td>Human delegates authority to AI agents, and the AI agents escalate to the human when it requires
+            intervention</td>
         </tr>
         <tr>
           <td><span class="level-label">Level 5:</span> Fully autonomous (self-evolving systems)</td>
           <td>Fully autonomous execution of processes towards a specified goal within the defined scope</td>
-          <td>Human fully delegates execution authority to the AI agent, the only expected involvement by humans is for goal setting and monitoring, compliance and strategic governance</td>
+          <td>Human fully delegates execution authority to the AI agent, the only expected involvement by humans is for
+            goal setting and monitoring, compliance and strategic governance</td>
         </tr>
       </tbody>
     </table>
-  </div>
+  </section>
 
-<section class="chart-border-container">
-  <div class="row">
-    <div class="label-top">In the next 12 months</div>
-
-    <div class="charts">
-      <div class="chart" *ngFor="let c of next12Months">
-        <div class="chart-title">{{c.level}}</div>
-        <canvas baseChart
-          [data]="c.chartData"
-          [type]="'doughnut'"
-          [options]="doughnutOptions">
-        </canvas>
-
-        <div class="center-text-top">{{c.value}}%</div>
-      </div>
-    </div>
-  </div>
-
-  <div class="row">
-    <div class="label-bottom">In the next 1–3 years</div>
-
-    <div class="charts">
-      <div class="chart" *ngFor="let c of next3Years">
-        <canvas baseChart
-          [data]="c.chartData"
-          [type]="'doughnut'"
-          [options]="doughnutOptions">
-        </canvas>
-
-        <div class="center-text-bottom">{{c.value}}%</div>
-      </div>
-    </div>
-  </div>
-</section>
+  <section class="chart-border-container">
+    <p class="explanation-text">
+      <strong>Inferences from the Charts:</strong><br>
+      The predictions indicate a significant shift towards higher levels of autonomy in AI agents over the next
+      few years. In the next 12 months, a majority of processes are expected to remain at Levels 0 to 2, with only
+      15% reaching Level 3 or higher. However, within 1 to 3 years, there is a marked increase in maturity, with
+      45% of processes anticipated to operate at Level 3 or above. This trend underscores the growing confidence
+      and reliance on AI agents to handle more complex tasks with reduced human intervention.
+  </p>
+    </section>
 </div>
