@@ -61,8 +61,8 @@ export class Reports implements OnInit{
           datasets: [{
             data: [value, 100 - value],
             backgroundColor: [
-            '#0f6e6b', // primary slice color
-            '#b9dad8ff'  // remainder (light neutral)
+            '#416b39fa', // primary slice color
+            '#b3ceadfa'  // remainder (light neutral)
           ],
           borderWidth: 0
           }]

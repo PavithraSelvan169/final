@@ -7,7 +7,7 @@
 
     </div>
     <div class="nav-actions">
-        <label *ngIf="auth.isLoggedIn()" class="user-label">Welcome, {{ auth.getUsername() }}</label>
-        <button *ngIf="auth.isLoggedIn()" (click)="auth.logout()">Logout</button>
+        <label *ngIf="auth.isLoggedIn()" class="user-label">Welcome, {{ auth.getUsername() }}    </label>
+        <button class="logout-btn" *ngIf="auth.isLoggedIn()" (click)="auth.logout()">Logout</button>
     </div>
 </nav>

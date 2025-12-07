@@ -76,7 +76,7 @@
   transform: translate(-50%, -50%);
   font-size: 18px;
   font-weight: 600;
-  color: #0f6e6b;
+  color: #416b39fa;
   font-family: Arial, sans-serif;
 }
 
@@ -87,7 +87,7 @@
   transform: translate(-50%, -50%);
   font-size: 18px;
   font-weight: 600;
-  color: #0f6e6b;
+  color: #416b39fa;
   font-family: Arial, sans-serif;
 }
 
@@ -98,9 +98,9 @@ canvas {
 
 .chart-title {
   text-align: center;
-  font-size: 14px;
+  font-size: 18px;
   font-weight: 600;
-  color: #0f6e6b;
+  color: #416b39fa;
   margin-bottom: 8px;
   height: 20px;
   font-family: Arial, sans-serif;
@@ -112,4 +112,86 @@ canvas {
   background-color: rgb(229, 236, 234);
   padding: 15px;
   margin-bottom: 30px;
+  overflow-x: auto;
+  width: 80%;
+}
+
+.autonomy-header {
+  margin-bottom: 40px;
+}
+
+.autonomy-title {
+  padding: 10px 15px;
+  display: inline-block;
+  margin-bottom: 20px;
+  font-size: 18px;
+  font-weight: 600;
+  color: #000;
+  font-family: Arial, sans-serif;
+}
+
+.autonomy-table {
+  width: 80%;
+  border-collapse: collapse;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  background-color: #fff;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.autonomy-table thead {
+  background: linear-gradient(135deg, #416b39fa 0%, #416b39fa 100%);
+}
+
+.autonomy-table th {
+  color: white;
+  padding: 15px 20px;
+  font-size: 16px;
+  font-weight: 600;
+  text-align: left;
+  font-family: Arial, sans-serif;
+  border-right: 1px solid #416b39fa;
+}
+
+.autonomy-table th:first-child,
+.autonomy-table td:first-child {
+width: 30%;
+}
+
+.autonomy-table th:last-child {
+  border-right: none;
+}
+
+
+.autonomy-table tbody tr {
+  border-bottom: 1px solid #ddd;
+}
+
+.autonomy-table tbody tr:last-child {
+  border-bottom: none;
+}
+
+.autonomy-table td {
+  padding: 15px 20px;
+  font-size: 14px;
+  line-height: 1.6;
+  color: #333;
+  font-family: Arial, sans-serif;
+  vertical-align: top;
+}
+
+.autonomy-table tbody tr:nth-child(odd) {
+  background-color: #f9f9f9;
+}
+
+.autonomy-table tbody tr:nth-child(even) {
+  background-color: #effceffa;
+}
+
+.autonomy-table .level-label {
+  font-weight: 600;
+  padding: 2px 6px;
+  border-radius: 3px;
+  display: inline-block;
+  margin-right: 4px;
 }

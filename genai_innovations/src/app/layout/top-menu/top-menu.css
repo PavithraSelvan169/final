@@ -43,3 +43,11 @@
 .logout-btn:hover {
   opacity: 0.8;
 }
+
+
+
+.nav-actions label {
+    margin-right: 15px;
+  font-size: 16px;
+  font-family: Arial, sans-serif;
+}
