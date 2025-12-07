@@ -29,6 +29,8 @@
 
 .maturity-container {
   padding: 40px;
+  width: 90%;
+  box-sizing: border-box;
 }
 
 .row {
@@ -113,7 +115,7 @@ canvas {
   padding: 15px;
   margin-bottom: 30px;
   overflow-x: auto;
-  width: 80%;
+  width: 90%;
 }
 
 .autonomy-header {
@@ -132,7 +134,7 @@ canvas {
 }
 
 .autonomy-table {
-  width: 80%;
+  width: 90%;
   border-collapse: collapse;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
   background-color: #fff;

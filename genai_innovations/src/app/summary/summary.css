@@ -46,10 +46,12 @@
   font-size: 0.95rem;
 }
 
-.ai-adoption-container {
+/* .ai-adoption-container {
   max-width: 900px;
   margin: auto;
-}
+} */
+
+
 
 /* .chart-wrapper {
   display: flex;
@@ -76,11 +78,11 @@ canvas {
 
 
 .ai-adoption-container {
-  max-width: 900px;
-  margin: auto;
+  width: 90%;
   padding: 20px;
   line-height: 1.6;
   font-family: Arial, sans-serif;
+  box-sizing: border-box;
 }
 
 .title {
@@ -100,4 +102,9 @@ canvas {
   background-color: rgb(229, 236, 234);
   padding: 15px;
   margin-bottom: 30px;
+}
+
+.autonomy-header {
+  margin-bottom: 1px;
+  font-family: Arial, sans-serif;
 }
