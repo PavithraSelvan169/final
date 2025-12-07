@@ -70,3 +70,7 @@ p:last-of-type {
   margin-bottom: 15px;
   color: #333;
 }
+
+li {
+  margin-left: 30px; /* Adjust the value as needed */
+}

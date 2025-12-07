@@ -50,8 +50,46 @@
   </p>
 
   <h2 class="title">Technical Description</h2>
-  <p>
-    This application uses Angular 21 as a fully standalone SPA with route guards
-    and JWT-based authentication handled through a FastAPI backend.
+
+  <h3>AWS Infrastructure</h3>
+  <p>The application and the database are hosted on AWS using an EC2 Instance in US East Region.
+    <br>
+    <li>Application Instance Type: t3.small</li>
+    <li>Operating System: Amazon Linux 2023</li>
+    <li>Web Server: Nginx</li>
+    <li>Back-End Port Number: 3000</li>
+    <li>Front-End Port Number: 80</li>
+    <li>Database Used: MySQL, hosted in Amazon Aurora RDS</li>
+
   </p>
+  <h3>Application</h3>
+  <p><strong>Back-End</strong><br>API is developed using Python and hosted on AWS EC2 instance.
+    <br>
+    <li>Python Package for REST API: FastAPI</li>
+    <li>Hosted using nohup and uvicorn packages</li>
+    <br>
+    <strong>Front-End</strong><br>The front-end is developed using Angular 21 and served using nginx on AWS EC2
+    instance.
+  </p>
+
+  <h3>Features Implemented</h3>
+<p>The following features are implemented in the application:
+  <br>
+  <li>Single Page Application using Angular UI, Python API and MySQL Database </li>
+  <li>Login Page</li>
+  <li>Dashboard (homepage) with Insights on Rise of AI Agents and Technical Details</li>
+  <li>Summary Page with 2 charts</li>
+  <li>Report Page with a multi-chart view</li>
+  <li>Login and Logout Functionalities using JWT Tokens</li>
+  <li>Code check-in excludes build-related files using gitignore</li>
+  <strong>Additional work:</strong>
+  <li>3-tier Service Oriented Architecture design is implemented</li>
+  <li>AuthGuard, LoginGuard, a common AuthService, etc. are implemented to comply with proper Angular design.</li>
+  <li>Favicon is implemented</li>
+  <li>User's password is hashed while signing up (only API endpoint, no UI). Hashed password is verified during Login process.</li>
+
+
+
+
+</p>
 </div>
